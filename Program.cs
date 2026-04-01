@@ -14,6 +14,10 @@ namespace Healthcare_Management_System
             string[] departments =  new string[100];
             int[] visitCount =  new int[100];
             double[] billingAmounts = new double[100];
+            string[] appointmentDates = new string[100]; // e.g. "2025-09-15"
+            string[] appointmentDoctors = new string[100]; // doctor for the appointment
+            string[] appointmentDepts = new string[100]; // department for the appointment
+            bool[] hasAppointment = new bool[100]; // true = appointment booked
 
             int patientIndex = -1;
 
@@ -27,6 +31,8 @@ namespace Healthcare_Management_System
             assignedDoctors[patientIndex] = " ";
             visitCount[patientIndex] = 2;
             billingAmounts[patientIndex] = 0;
+            hasAppointment[patientIndex] = false;
+
 
             //seed data patient 2
             patientIndex++;
@@ -38,6 +44,7 @@ namespace Healthcare_Management_System
             assignedDoctors[patientIndex] = "Dr. Noor";
             visitCount[patientIndex] = 4;
             billingAmounts[patientIndex] = 0;
+            hasAppointment[patientIndex] = false;
 
             //seed data patient 3
             patientIndex++;
@@ -49,6 +56,7 @@ namespace Healthcare_Management_System
             assignedDoctors[patientIndex] = " ";
             visitCount[patientIndex] = 1;
             billingAmounts[patientIndex] = 0;
+            hasAppointment[patientIndex] = false;
 
 
             bool exit = false;
@@ -67,13 +75,24 @@ namespace Healthcare_Management_System
                 Console.WriteLine("7. View Most Visited Patients");
                 Console.WriteLine("8. Search Patients by Department");
                 Console.WriteLine("9. Billing Report");
-                Console.WriteLine("10. Exit");
+                Console.WriteLine("10. Schedule Appointment");
+                Console.WriteLine("11. Patient History Report");
+                Console.WriteLine("12. Department Statistics Report");
+                Console.WriteLine("13. Exit");
 
                 Console.Write("choose option:");
 
+                if (!int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    Console.WriteLine("Invalid input. Please enter a number corresponding to the menu options.");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
 
-                int choice = int.Parse(Console.ReadLine());
 
+             
                 switch (choice)
                 {
                     case 1: // Register New Patient
@@ -83,8 +102,7 @@ namespace Healthcare_Management_System
                         Console.Write(" Patient Name:");
                         patientNames[patientIndex] = Console.ReadLine();
 
-                        Console.Write("Patient ID:");
-                        patientIDs[patientIndex] = Console.ReadLine();
+
 
                         Console.Write("Diagnosis:");
                         diagnoses[patientIndex] = Console.ReadLine();
@@ -92,14 +110,17 @@ namespace Healthcare_Management_System
                         Console.Write("Department:");
                         departments[patientIndex] = Console.ReadLine();
 
+                        patientIDs[patientIndex] = "P00" + (patientIndex + 1);
+
+
                         admitted[patientIndex] = false;
                         assignedDoctors[patientIndex] = "";
                         visitCount[patientIndex] = 0;
                         billingAmounts[patientIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully!");
-
-                        break;
+                        Console.WriteLine("Generated Patient ID: " + patientIDs[patientIndex]);
+                        break;  //// Register New Patient
 
                     case 2: // Admit patient
 
@@ -116,20 +137,20 @@ namespace Healthcare_Management_System
 
                                 if (admitted[i] == false)
                                 {
-                                    Console.Write("Enter Doctor Name:");
+                                    Console.Write("Enter Doctor Name: ");
                                     string doctorName = Console.ReadLine();
 
                                     admitted[i] = true;
                                     assignedDoctors[i] = doctorName;
                                     visitCount[i]++;
 
-                                    Console.WriteLine("Patient admitted successfully and assigned to" + doctorName);
+                                    Console.WriteLine("Patient admitted successfully and assigned to Dr." + doctorName);
                                     Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
 
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Patient is already admitted under" + assignedDoctors[i]);
+                                    Console.WriteLine("Patient is already admitted under " + assignedDoctors[i]);
                                 }
                                 break;
                             }
@@ -139,11 +160,11 @@ namespace Healthcare_Management_System
                             Console.WriteLine("Patient not found");
 
                         }
-                        break;
+                        break;  //// Admit patient
 
                     case 3: //Discharge patient
 
-                        Console.Write("Enter Patient IS or Name:");
+                        Console.Write("Enter Patient IS or Name: ");
                         string DischargeInput = Console.ReadLine();
 
                         bool dischargeFound = false;
@@ -158,23 +179,23 @@ namespace Healthcare_Management_System
                                     double visitCharges = 0;
 
                                     //consutation fee
-                                    Console.Write(" Was there a consulation fee? (yes/no):");
+                                    Console.Write(" Was there a consulation fee? (yes/no): ");
                                     string consultation = Console.ReadLine().ToLower();
 
                                     if (consultation == "yes")
                                     {
-                                        Console.Write("Enter Consultation fee amount:");
+                                        Console.Write("Enter Consultation fee amount: ");
                                         double consultAmount = double.Parse(Console.ReadLine());
                                         visitCharges += consultAmount;
                                     }
 
                                     // Medication charges
-                                    Console.Write(" Was there a medication fee? (yes/no):");
+                                    Console.Write(" Was there a medication fee? (yes/no): ");
                                     string medication = Console.ReadLine().ToLower();
 
                                     if (medication == "yes")
                                     {
-                                        Console.Write("Enter medication fee amount:");
+                                        Console.Write("Enter medication fee amount: ");
                                         double medtAmount = double.Parse(Console.ReadLine());
                                         visitCharges += medtAmount;
                                     }
@@ -190,7 +211,7 @@ namespace Healthcare_Management_System
 
                                     if(visitCharges > 0)
                                     {
-                                        Console.WriteLine("Total charges added this visit:" + visitCharges + "OMR");
+                                        Console.WriteLine("Total charges added this visit: " + visitCharges + " OMR");
                                     }
 
                                     else
@@ -217,10 +238,10 @@ namespace Healthcare_Management_System
                         }
 
 
-                        break;
+                        break; ////Discharge patient
 
                     case 4://Sreach Patient
-                        Console.Write("Enter patient ID or Name:");
+                        Console.Write("Enter patient ID or Name: ");
                         string searchInput = Console.ReadLine();
 
                         bool searchFound = false;
@@ -242,7 +263,7 @@ namespace Healthcare_Management_System
 
                                 if (admitted[i] == true)
                                 {
-                                    Console.WriteLine("Assigned Doctor:" + assignedDoctors[i]);
+                                    Console.WriteLine("Assigned Doctor: " + assignedDoctors[i]);
 
                                 }
                                 Console.WriteLine("--------------------------------------------");
@@ -254,7 +275,7 @@ namespace Healthcare_Management_System
                             Console.WriteLine("Patient Not Found");
                         }
 
-                        break;
+                        break; ////Sreach Patient
 
                     case 5: // List All Admitted Patients 
                         Console.WriteLine("Admitted Patients:");
@@ -280,14 +301,14 @@ namespace Healthcare_Management_System
                         {
                             Console.WriteLine("No patients currently admitted");
                         }
-                        break;
+                        break; //// List All Admitted Patients 
 
                     case 6: // Trabsfer patient to Another Doctor
 
-                        Console.Write("Enter current doctor name:");
+                        Console.Write("Enter current doctor name: ");
                         string currentDoctor = Console.ReadLine();
 
-                        Console.Write("Enter New Doctor Name:");
+                        Console.Write("Enter New Doctor Name: ");
                         string newDoctor = Console.ReadLine();
 
                         bool transferFound = false;
@@ -300,7 +321,7 @@ namespace Healthcare_Management_System
 
                                 assignedDoctors[i] = newDoctor;
 
-                                Console.WriteLine("Patient ' " + patientNames[i] + " ' has been transferred to" + newDoctor);
+                                Console.WriteLine("Patient ' " + patientNames[i] + " ' has been transferred to " + newDoctor);
 
                             }
                         }
@@ -309,7 +330,7 @@ namespace Healthcare_Management_System
                             Console.WriteLine(" No admitted patient found under this doctor");
                         }
 
-                        break;
+                        break; //// Trabsfer patient to Another Doctor
 
                     case 7: // View Most Visited Patients
                         Console.WriteLine("Most Visted Patients:");
@@ -330,15 +351,15 @@ namespace Healthcare_Management_System
                             }
                         }
 
-                        break;
+                        break; //// View Most Visited Patients
 
                     case 8: // Search Patients by Department
-                        Console.Write("Enter department name:");
+                        Console.Write("Enter department name: ");
                         string searchDep = Console.ReadLine();
 
                         bool DepFound = false;
 
-                        Console.WriteLine("Patients in department '" + searchDep + " ':");
+                        Console.WriteLine("Patients in department ' " + searchDep + " ': ");
                         Console.WriteLine("----------------------------------------");
 
                         for (int i=0; i<=patientIndex; i++)
@@ -368,11 +389,11 @@ namespace Healthcare_Management_System
                         {
                             Console.WriteLine("No Patients found in this departments");
                         }
-                        break;
+                        break; //// Search Patients by Department
 
                     case 9:
 
-                        Console.WriteLine("Billing Report:");
+                        Console.WriteLine("Billing Report: ");
                         Console.WriteLine(" 1. System-wide total");
                         Console.WriteLine(" 2. Individual patient");
                         Console.Write("Choose option:");
@@ -388,7 +409,7 @@ namespace Healthcare_Management_System
      
                             }
                             Console.WriteLine("----------------------------");
-                            Console.WriteLine("System-wide total billing:" + totalBilling + "OMR");
+                            Console.WriteLine("System-wide total billing: " + totalBilling + " OMR");
 
                         }
                         else if (billingOption == 2)
@@ -407,7 +428,7 @@ namespace Healthcare_Management_System
                                     if (billingAmounts[i] > 0)
                                     {
                                         Console.WriteLine("-----------------------------------------------------");
-                                        Console.WriteLine("Billing amount for" + patientNames[i] + ": " + billingAmounts[i] + " OMR");
+                                        Console.WriteLine("Billing amount for " + patientNames[i] + " : " + billingAmounts[i] + " OMR");
                                     }
                                     else
                                     {
@@ -422,14 +443,117 @@ namespace Healthcare_Management_System
                                 Console.WriteLine(" No billing records found for this patient");
                             }
                         }
-                            break;
+                            break; ////Billing Report
 
-                    case 10:
+                    case 10:  //Schedule Appointment
+
+                        Console.Write("Enter patient ID or Name: ");
+                        string appointmentInput = Console.ReadLine();
+
+                        bool appointmentFound = false;
+
+                        for (int i=0; i<= patientIndex; i++)
+                        {
+                            if (patientNames[i] == appointmentInput || patientIDs[i] == appointmentInput)
+                            {
+                                appointmentFound = true;
+
+                                if (hasAppointment[i] == true)
+                                {
+                                    Console.WriteLine(" Patient already has an appointment on " + appointmentDates[i]);
+                                }
+
+                                else
+                                {
+                                    Console.Write("Enter appointment date:");
+                                    appointmentDates[i] = Console.ReadLine();
+
+                                    Console.Write("Enter doctor name:");
+                                    appointmentDoctors[i] = Console.ReadLine();
+
+                                    Console.Write("Enter Department: ");
+                                    appointmentDepts[i] = Console.ReadLine();
+
+                                    hasAppointment[i] = true;
+
+                                    Console.WriteLine("Appointment scheduled for " + patientNames[1] +
+                                                       " on " + appointmentDates[i] +
+                                                       " with Doctor " + appointmentDoctors[i] +
+                                                       " in " + appointmentDepts[i] + " Department");
+                                }
+
+                                break;
+
+                            }
+                        }
+                        if (appointmentFound == false)
+                        {
+                            Console.WriteLine("Patient not found");
+                        }
+
+
+                        break; ////Schedule Appointment
+
+                    case 11:  //Patient History Report
+
+                        Console.Write("Enter patient ID or Name:");
+                        string historyInput = Console.ReadLine();
+
+                        bool historyFound = false;
+
+                        for (int i=0; i<= patientIndex; i++)
+                        {
+                            if (patientNames[i] == historyInput || patientIDs[i] == historyInput)
+                            {
+                                historyFound = true;
+
+                                Console.WriteLine("---------------------------------------------------");
+                                Console.WriteLine("Patient Name: " + patientNames[i]);
+                                Console.WriteLine("Patient ID: " + patientIDs[i]);
+                                Console.WriteLine("Diagnosis: " + diagnoses[i]);
+                                Console.WriteLine("Department: " + departments[i]);
+                                Console.WriteLine("Admission Status: " + admitted[i]);
+
+                                if (admitted[i] == true)
+                                {
+                                    Console.WriteLine("Assigned Doctor: " + assignedDoctors[i]);
+                                }
+
+                                Console.WriteLine("Total visits: " + visitCount[i]);
+                                Console.WriteLine("Total Biling Amount:" + billingAmounts[i]);
+
+                                if (hasAppointment[i] == true)
+                                {
+                                    Console.WriteLine("Appointment Date: " + appointmentDates[i]);
+                                    Console.WriteLine("Appointment Doctor: " + appointmentDoctors[i]);
+                                    Console.WriteLine("Appointment Department: " + appointmentDepts[i]);
+                                }
+
+                                else
+                                {
+                                    Console.WriteLine("No appointment scheduled");
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (historyFound == false)
+                        {
+                            Console.WriteLine("Patient not found");
+                        }
+                        break; ////Patient History Report
+
+                    case 12:
+                        break;
+
+                    case 13:
 
                         Console.WriteLine("Exiting system...");
                         Console.WriteLine("Thank you for using the Healthcare");
                         Console.WriteLine("Management System!");
-                        break;
+                        exit = true;
+                        break; ////Exit 
 
                     default:
                         Console.WriteLine("Invalid option. please try again.");
