@@ -544,8 +544,7 @@ namespace Healthcare_Management_System
                         }
                         break; ////Patient History Report
 
-                    case 12:
-                        break;
+
 
                     case 13:
 
