@@ -187,7 +187,7 @@ namespace Healthcare_Management_System
 
                     case 3: //Discharge patient
 
-                        Console.Write("Enter Patient IS or Name: ");
+                        Console.Write("Enter Patient ID or Name: ");
                         string DischargeInput = Console.ReadLine();
 
                         bool dischargeFound = false;
@@ -214,8 +214,9 @@ namespace Healthcare_Management_System
                                             consultAmount = double.Parse(Console.ReadLine());
                                             if(consultAmount >0)
                                             {
-                                                billingAmounts[i] += consultAmount;
+                                                
                                                 visitCharges += consultAmount;
+                                                billingAmounts[i] += consultAmount;
                                             }
                                             else
                                             {
@@ -252,7 +253,8 @@ namespace Healthcare_Management_System
                                             if(medtAmount>0)
                                             {
                                                 visitCharges += medtAmount;
-                                                billingAmounts[i] += visitCharges;
+                                                billingAmounts[i] += medtAmount;
+
                                             }
                                             else
                                             {
@@ -270,7 +272,7 @@ namespace Healthcare_Management_System
 
                                     }
 
-                                   
+
                                     
 
                                     //Discharge patient
@@ -336,7 +338,11 @@ namespace Healthcare_Management_System
                                     Console.WriteLine("Assigned Doctor: " + assignedDoctors[i]);
 
                                 }
-                                Console.WriteLine("--------------------------------------------");
+                                else
+                                {
+                                    Console.WriteLine("Not currently admitted");
+                                }
+                                    Console.WriteLine("--------------------------------------------");
 
                             }
                         }
@@ -352,8 +358,9 @@ namespace Healthcare_Management_System
                         Console.WriteLine("------------------------------");
 
                         bool hasAdmitted = false;
+                        int admittedCount = 0;
 
-                        for(int i=0; i<=patientIndex; i++)
+                        for (int i=0; i<=patientIndex; i++)
                         {
                             if (admitted[i] == true)
                             {
@@ -364,12 +371,18 @@ namespace Healthcare_Management_System
                                                   " |Doctor:" + assignedDoctors[i]);
 
                                 hasAdmitted = true;
+                                admittedCount++;
                             }
                         }
 
                         if (hasAdmitted == false)
                         {
                             Console.WriteLine("No patients currently admitted");
+                        }
+                        else
+                        {
+                            Console.WriteLine("------------------------------");
+                            Console.WriteLine("Total Admitted Patients: " + admittedCount);
                         }
                         break; //// List All Admitted Patients 
 
@@ -380,6 +393,12 @@ namespace Healthcare_Management_System
 
                         Console.Write("Enter New Doctor Name: ");
                         string newDoctor = Console.ReadLine();
+
+                        if (currentDoctor.ToLower() == newDoctor.ToLower())
+                        {
+                            Console.WriteLine("Current doctor and new doctor names are the same.");
+                            break;
+                        }
 
                         bool transferFound = false;
 
@@ -392,6 +411,7 @@ namespace Healthcare_Management_System
                                 assignedDoctors[i] = newDoctor;
 
                                 Console.WriteLine("Patient ' " + patientNames[i] + " ' has been transferred to " + newDoctor);
+                                break;
 
                             }
                         }
@@ -434,7 +454,7 @@ namespace Healthcare_Management_System
 
                         for (int i=0; i<=patientIndex; i++)
                         {
-                            if (departments[i].ToLower() == searchDep.ToLower())
+                            if (departments[i].ToLower().Contains(searchDep.ToLower()))
                             {
                                 DepFound = true;
 
@@ -522,6 +542,10 @@ namespace Healthcare_Management_System
                             {
                                 Console.WriteLine(" No billing records found for this patient");
                             }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option. Please enter 1 or 2.");
                         }
                             break; ////Billing Report
 
@@ -628,11 +652,24 @@ namespace Healthcare_Management_System
 
                     case 13:
 
-                        Console.WriteLine("Exiting system...");
-                        Console.WriteLine("Thank you for using the Healthcare");
-                        Console.WriteLine("Management System!");
-                        exit = true;
-                        break; ////Exit 
+                        Console.Write("Are you sure you want to exit? (yes/no): ");
+                        string exitInput = Console.ReadLine().ToLower();
+
+                        if (exitInput == "yes")
+                        {
+                            Console.WriteLine("Exiting system...");
+                            Console.WriteLine("Thank you for using the Healthcare");
+                            Console.WriteLine("Management System!");
+                            exit = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Exit cancelled. Returning to main menu...");
+                          
+                        }
+
+
+                            break; ////Exit 
 
                     default:
                         Console.WriteLine("Invalid option. please try again.");
