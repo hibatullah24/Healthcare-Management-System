@@ -18,6 +18,11 @@ namespace Healthcare_Management_System
             string[] appointmentDoctors = new string[100]; // doctor for the appointment
             string[] appointmentDepts = new string[100]; // department for the appointment
             bool[] hasAppointment = new bool[100]; // true = appointment booked
+            string[] lastVisitDate = new string[100]; // e.g. "2025-08-20"
+            string [] lastDischargeDate = new string[100]; // e.g. "2025-08-25"
+            int[] daysInHospital = new int[100]; // number of days between admission and discharge
+            string[] bloodType = new string[100]; // e.g. "A+", "O-", etc.
+
 
             int patientIndex = -1;
 
@@ -32,6 +37,10 @@ namespace Healthcare_Management_System
             visitCount[patientIndex] = 2;
             billingAmounts[patientIndex] = 0;
             hasAppointment[patientIndex] = false;
+            lastVisitDate[patientIndex] = "2025-01-10";
+            lastDischargeDate[patientIndex] = "2025-01-15";
+            daysInHospital[patientIndex] = 12;
+            bloodType[patientIndex] = "A+";
 
 
             //seed data patient 2
@@ -45,6 +54,10 @@ namespace Healthcare_Management_System
             visitCount[patientIndex] = 4;
             billingAmounts[patientIndex] = 0;
             hasAppointment[patientIndex] = false;
+            lastVisitDate[patientIndex] = "2025-03-02";
+            lastDischargeDate[patientIndex] = "";
+            daysInHospital[patientIndex] = 8;
+            bloodType[patientIndex] = "O-";
 
             //seed data patient 3
             patientIndex++;
@@ -57,6 +70,10 @@ namespace Healthcare_Management_System
             visitCount[patientIndex] = 1;
             billingAmounts[patientIndex] = 0;
             hasAppointment[patientIndex] = false;
+            lastVisitDate[patientIndex] = "2024-12-20";
+            lastDischargeDate[patientIndex] = "2024-12-28";
+            daysInHospital[patientIndex] = 5;
+            bloodType[patientIndex] = "B+";
 
 
             bool exit = false;
@@ -67,7 +84,7 @@ namespace Healthcare_Management_System
                 Console.WriteLine("===== Healthcare Management System =====");
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("1. Register New Patient");
-                Console.WriteLine("2. Admit PAtient");
+                Console.WriteLine("2. Admit Patient");
                 Console.WriteLine("3. Discharge Patient");
                 Console.WriteLine("4. Search Patient");
                 Console.WriteLine("5. List All Admitted Patients");
@@ -99,11 +116,15 @@ namespace Healthcare_Management_System
                 {
                     case 1: // Register New Patient
 
-                        Console.Write(" Patient Name:");
+                        Console.Write("Patient Name:");
                         string nameInput = Console.ReadLine();
 
                         Console.Write("Diagnosis:");
                         string diagnosisInput = Console.ReadLine();
+
+                        Console.Write("Blood Type:");
+
+                        string bloodInput = Console.ReadLine();
 
                         Console.Write("Department:");
                         string deptInput = Console.ReadLine();
@@ -113,6 +134,7 @@ namespace Healthcare_Management_System
                         patientNames[patientIndex] = nameInput;
                         diagnoses[patientIndex] = diagnosisInput;
                         departments[patientIndex] = deptInput;
+                        bloodType[patientIndex] = bloodInput;
 
                         int num = patientIndex + 1;
                         if (num<10)
@@ -133,6 +155,9 @@ namespace Healthcare_Management_System
                         assignedDoctors[patientIndex] = "";
                         visitCount[patientIndex] = 0;
                         billingAmounts[patientIndex] = 0;
+                        lastVisitDate[patientIndex] = "";
+                        lastDischargeDate[patientIndex] = "";
+                        daysInHospital[patientIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully!");
                         Console.WriteLine("Generated Patient ID: " + patientIDs[patientIndex]);
@@ -160,7 +185,15 @@ namespace Healthcare_Management_System
                                     assignedDoctors[i] = doctorName;
                                     visitCount[i]++;
 
-                                    Console.WriteLine("Patient admitted successfully and assigned to Dr." + doctorName);
+                                    Console.Write("Enter admission date:");
+                                    string admissionDate = Console.ReadLine();
+
+                                    lastVisitDate[i] = admissionDate;
+                                    lastDischargeDate[i] = "";
+
+                                   
+
+                                    Console.WriteLine("Patient admitted successfully , admission date recorded " + lastVisitDate[i] + " and assigned to Dr." + doctorName);
                                     if(visitCount[i] > 1)
                                     {
                                         Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
@@ -200,6 +233,9 @@ namespace Healthcare_Management_System
                                 if (admitted[i] == true)
                                 {
                                     double visitCharges = 0;
+
+
+                                    
 
                                     //consutation fee
                                     Console.Write(" Was there a consulation fee? (yes/no): ");
@@ -272,6 +308,32 @@ namespace Healthcare_Management_System
 
                                     }
 
+                                    Console.Write("Enter discharge date:");
+                                    string dischargeDate = Console.ReadLine();
+
+                                    lastDischargeDate[i] = dischargeDate;
+                                    Console.Write("Enter number of dayes in hospital for this visit:");
+                                    int days = 0;
+
+                                    try
+                                    {
+                                        days = int.Parse(Console.ReadLine());
+
+                                        if (days > 0)
+                                        {
+                                            daysInHospital[i] += days;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Days must be greater than zero");
+                                        }
+                                    }
+
+                                    catch(Exception ex)
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid number");
+                                    }
+
 
                                     
 
@@ -291,15 +353,17 @@ namespace Healthcare_Management_System
                                         Console.WriteLine("No charges recored for this visit");
 
                                     }
+                                    Console.WriteLine("Discharge date recorded: " + lastDischargeDate[i]);
+                                    Console.WriteLine("Total days in hospital so far: " + daysInHospital[i]);
                                     Console.WriteLine("Patient discharged successfully!");
                                 }
                                 else
                                 {
                                     Console.WriteLine("This patient is not currently admitted");
-
+                                    break;
                                 }
 
-                                break;
+                               
                             }
 
                         }
@@ -332,6 +396,7 @@ namespace Healthcare_Management_System
                                 Console.WriteLine("Admitted:" + admitted[i]);
                                 Console.WriteLine("Visit Count:" + visitCount[i]);
                                 Console.WriteLine("Total Billing Amount:" + billingAmounts[i]);
+                                Console.WriteLine("Total Days in Hospital: " + daysInHospital[i]);
 
                                 if (admitted[i] == true)
                                 {
@@ -342,7 +407,30 @@ namespace Healthcare_Management_System
                                 {
                                     Console.WriteLine("Not currently admitted");
                                 }
-                                    Console.WriteLine("--------------------------------------------");
+                                   
+
+                                if (lastVisitDate[i] == "")
+                                {
+                                    Console.WriteLine("Last visit Date: No admission recorded");
+                                    
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Last Visit Date: " + lastVisitDate[i]);
+                                }
+
+                                if (lastDischargeDate[i] == "")
+                                {
+                                    Console.WriteLine("Last Discharge Date: Still admitted");
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Last Discharge Date:" + lastDischargeDate[i]);
+                                }
+
+                                Console.WriteLine("--------------------------------------------");
+                                break;
 
                             }
                         }
@@ -364,11 +452,22 @@ namespace Healthcare_Management_System
                         {
                             if (admitted[i] == true)
                             {
-                                Console.WriteLine("Name:" + patientNames[i] +
-                                                  " | ID:" + patientIDs[i] +
-                                                  " |Diagnosis: " + diagnoses[i] +
-                                                  " |Department:" + departments[i] +
-                                                  " |Doctor:" + assignedDoctors[i]);
+                                string admittedSince;
+                                if (lastVisitDate[i] == "")
+                                {
+                                    admittedSince = " No admission recorded";
+                                }
+                                else
+                                {
+                                    admittedSince = lastVisitDate[i];
+                                }
+
+                                Console.WriteLine("Name: " + patientNames[i] +
+                                               " | ID: " + patientIDs[i] +
+                                               " | Diagnosis: " + diagnoses[i] +
+                                               " | Department: " + departments[i] +
+                                               " | Doctor: " + assignedDoctors[i] +
+                                               " | Admitted Since: " + admittedSince);
 
                                 hasAdmitted = true;
                                 admittedCount++;
@@ -398,6 +497,7 @@ namespace Healthcare_Management_System
                         {
                             Console.WriteLine("Current doctor and new doctor names are the same.");
                             break;
+                            
                         }
 
                         bool transferFound = false;
@@ -410,8 +510,18 @@ namespace Healthcare_Management_System
 
                                 assignedDoctors[i] = newDoctor;
 
-                                Console.WriteLine("Patient ' " + patientNames[i] + " ' has been transferred to " + newDoctor);
-                                break;
+                                
+                               Console.WriteLine("Patient ' " + patientNames[i] + " ' has been transferred to " + newDoctor);
+
+                                if (lastVisitDate[i] == "")
+                                {
+                                    Console.WriteLine("Patient last admitted on: No admission recorded");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Patient last admitted on:" + lastVisitDate[i]);
+                                }
+                                    break;
 
                             }
                         }
@@ -471,6 +581,7 @@ namespace Healthcare_Management_System
                                 Console.WriteLine("ID: " + patientIDs[i] +
                                                   " | Name: " + patientNames[i] +
                                                   " | Diagnosis: " + diagnoses[i] +
+                                                  " | Blood Type: " + bloodType[i] +
                                                   " | Status: " + status);
                             }
                         }
@@ -529,6 +640,16 @@ namespace Healthcare_Management_System
                                     {
                                         Console.WriteLine("-----------------------------------------------------");
                                         Console.WriteLine("Billing amount for " + patientNames[i] + " : " + billingAmounts[i] + " OMR");
+
+                                        if (lastVisitDate[i] == "")
+                                        {
+                                            Console.WriteLine("Last Visit Date: No admission recorded");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Last Visit Date: " + lastVisitDate[i]);
+                                        }
+                                        Console.WriteLine("Total Days: " + daysInHospital[i]);
                                     }
                                     else
                                     {
@@ -580,7 +701,7 @@ namespace Healthcare_Management_System
 
                                     hasAppointment[i] = true;
 
-                                    Console.WriteLine("Appointment scheduled for " + patientNames[1] +
+                                    Console.WriteLine("Appointment scheduled for " + patientNames[i] +
                                                        " on " + appointmentDates[i] +
                                                        " with Doctor " + appointmentDoctors[i] +
                                                        " in " + appointmentDepts[i] + " Department");
