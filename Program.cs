@@ -891,7 +891,7 @@ namespace Healthcare_Management_System
 
 
                     case 13:
-                        if(lastDoctorIndex <0)
+                        if(lastDoctorIndex == -1)
                         {
                             Console.WriteLine(" No doctors registered in the system");
                             break;
@@ -901,33 +901,32 @@ namespace Healthcare_Management_System
                         Console.WriteLine("----------------------------------------------");
 
                         double highestSalary = 0;
-                        string highestDoctor = "";
+                        int highestDoctorIndex = -1;
 
-                        for ( int i=0; i <= lastDoctorIndex; i++)
+
+                        for (int i = 0; i <= lastDoctorIndex; i++)
                         {
                             double salary = 300 + (doctorVisitCount[i] * 15);
                             salary = Math.Round(salary, 2);
 
+                            string salaryText = Convert.ToString(salary);
+
                             Console.WriteLine("Name: " + doctorNames[i] +
                                               " | Visits: " + doctorVisitCount[i] +
                                               " | Available Slots: " + doctorAvailableSlots[i] +
-                                              " | Salary: " + salary + " OMR");
+                                              " | Salary: " + salaryText + " OMR");
 
-                            if (salary > highestSalary)
+
+                            double newHighest = Math.Max(highestSalary, salary);
+                            if (newHighest != highestSalary)
                             {
-                                highestSalary = salary;
-                                highestDoctor = doctorNames[i];
+                                highestSalary = newHighest;
+                                highestDoctorIndex = i;
                             }
                         }
-
-                        Console.WriteLine("------------------------------------");
-
-                        if (highestDoctor != "")
-                        {
-                            Console.WriteLine("Highest Paid Doctor: " + highestDoctor +
-                                              " with " + Math.Round(highestSalary, 2) + " OMR");
-                        }
-
+                        Console.WriteLine("-------------------------------------");
+                        Console.WriteLine("Highest earning doctor: " + doctorNames[highestDoctorIndex] +
+                                           " - " + Math.Round(highestSalary, 2) + " OMR");
 
                         break; ////Doctor Salary Report
 
