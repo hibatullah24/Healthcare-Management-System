@@ -891,6 +891,44 @@ namespace Healthcare_Management_System
 
 
                     case 13:
+                        if(lastDoctorIndex <0)
+                        {
+                            Console.WriteLine(" No doctors registered in the system");
+                            break;
+                        }
+
+                        Console.WriteLine("Doctor Salary Report");
+                        Console.WriteLine("----------------------------------------------");
+
+                        double highestSalary = 0;
+                        string highestDoctor = "";
+
+                        for ( int i=0; i <= lastDoctorIndex; i++)
+                        {
+                            double salary = 300 + (doctorVisitCount[i] * 15);
+                            salary = Math.Round(salary, 2);
+
+                            Console.WriteLine("Name: " + doctorNames[i] +
+                                              " | Visits: " + doctorVisitCount[i] +
+                                              " | Available Slots: " + doctorAvailableSlots[i] +
+                                              " | Salary: " + salary + " OMR");
+
+                            if (salary > highestSalary)
+                            {
+                                highestSalary = salary;
+                                highestDoctor = doctorNames[i];
+                            }
+                        }
+
+                        Console.WriteLine("------------------------------------");
+
+                        if (highestDoctor != "")
+                        {
+                            Console.WriteLine("Highest Paid Doctor: " + highestDoctor +
+                                              " with " + Math.Round(highestSalary, 2) + " OMR");
+                        }
+
+
                         break; ////Doctor Salary Report
 
 
