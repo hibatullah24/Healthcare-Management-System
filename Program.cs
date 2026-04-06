@@ -23,9 +23,12 @@ namespace Healthcare_Management_System
             DateTime[] lastDischargeDate = new DateTime[100]; // e.g. "2025-08-25"
             int[] daysInHospital = new int[100]; // number of days between admission and discharge
             string[] bloodType = new string[100]; // e.g. "A+", "O-", etc.
-
+            string[] doctorNames = new string[50];
+            int[] doctorAvailableSlots = new int[50]; // number of available appointment slots for each doctor
+            int [] doctorVisitCount = new int[50];
 
             int patientIndex = -1;
+            int lastDoctorIndex = -1;
 
             //seed data for testing
             patientIndex++;
@@ -42,6 +45,7 @@ namespace Healthcare_Management_System
             lastDischargeDate[patientIndex] = new DateTime(2025,01,15);
             daysInHospital[patientIndex] = 12;
             bloodType[patientIndex] = "A+";
+            
 
 
             //seed data patient 2
@@ -59,6 +63,7 @@ namespace Healthcare_Management_System
             lastDischargeDate[patientIndex] = DateTime.MinValue;
             daysInHospital[patientIndex] = 8;
             bloodType[patientIndex] = "O-";
+           
 
             //seed data patient 3
             patientIndex++;
@@ -75,6 +80,32 @@ namespace Healthcare_Management_System
             lastDischargeDate[patientIndex] = new DateTime(2024,12,28);
             daysInHospital[patientIndex] = 5;
             bloodType[patientIndex] = "B+";
+
+
+            //seed data doctor 1
+            lastDoctorIndex++;
+            doctorNames[lastDoctorIndex] = "Dr. Noor";
+            doctorAvailableSlots[lastDoctorIndex] = 5;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            //seed data doctor 2
+            lastDoctorIndex++;
+            doctorNames[lastDoctorIndex] = "Dr. Salem";
+            doctorAvailableSlots[lastDoctorIndex] = 3;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            //seed data doctor 3
+            lastDoctorIndex++;
+            doctorNames[lastDoctorIndex] = "Dr. Hana";
+            doctorAvailableSlots[lastDoctorIndex] = 8;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+
+
+
+
+
+
 
 
             bool exit = false;
@@ -95,7 +126,9 @@ namespace Healthcare_Management_System
                 Console.WriteLine("9. Billing Report");
                 Console.WriteLine("10. Schedule Appointment");
                 Console.WriteLine("11. Patient History Report");
-                Console.WriteLine("12. Exit");
+                Console.WriteLine("12. Add Doctor");
+                Console.WriteLine("13. Doctor Salary Report");
+                Console.WriteLine("14. Exit");
 
                 Console.Write("choose option:");
 
@@ -814,8 +847,55 @@ namespace Healthcare_Management_System
                         break; ////Patient History Report
 
 
-
                     case 12:
+                        Console.Write("Enter doctor name: ");
+                        string doctorNameInput = Console.ReadLine().Trim();
+
+                        Console.Write("Enter number of available slots: ");
+                        string slotsInput = Console.ReadLine();
+
+                        int slotCount;
+
+                        if (int.TryParse (slotsInput, out slotCount) == false || slotCount <1)
+                        {
+                            Console.WriteLine("Invalid slot count. Doctor not registered.");
+                            break;
+                        }
+
+                        bool doctorExists = false;
+
+                        for (int i=0; i <= lastDoctorIndex; i++)
+                        {
+                            if (doctorNames[i].ToLower() == doctorNameInput. ToLower())
+                            {
+                                doctorExists = true;
+                                break;
+                            }
+                        }
+
+                        if(doctorExists == true)
+                        {
+                            Console.WriteLine("Doctor already exists in the system");
+                            break;
+                        }
+
+                        lastDoctorIndex++;
+                        doctorNames[lastDoctorIndex] = doctorNameInput;
+                        doctorAvailableSlots[lastDoctorIndex] = slotCount;
+                        doctorVisitCount[lastDoctorIndex] = 0;
+
+                        Console.WriteLine("Doctor " + doctorNameInput + " registered  successfully with " + slotCount + " available slots.");
+                        break; ////Add Doctor
+                        
+
+
+
+                    case 13:
+                        break; ////Doctor Salary Report
+
+
+
+                    case 14:
 
                         Console.Write("Are you sure you want to exit? (yes/no): ");
                         string exitInput = Console.ReadLine().ToLower();
