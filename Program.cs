@@ -1,92 +1,108 @@
 using System;
+using System.Collections.Generic;
 
-namespace Healthcare_Management_System
+namespace List_code
 {
     internal class Program
     {
+        
+        static List<string> patientNames = new List<string>();
+        //static string[] patientIDs = new string[100];
+        static List<string> patientIDs = new List<string>();
+        //static string[] diagnoses = new string[100];
+        static List<string> diagnoses = new List<string>();
 
-        static string[] patientNames = new string[100];
-        static string[] patientIDs = new string[100];
-        static string[] diagnoses = new string[100];
-        static bool[] admitted = new bool[100];
-        static string[] assignedDoctors = new string[100];
-        static string[] departments = new string[100];
-        static int[] visitCount = new int[100];
-        static double[] billingAmounts = new double[100];
-        static DateTime[] lastVisitDate = new DateTime[100];
-        static DateTime[] lastDischargeDate = new DateTime[100];
-        static int[] daysInHospital = new int[100];
-        static string[] bloodType = new string[100];
+        //static bool[] admitted = new bool[100];
+        static List<bool> admitted = new List<bool>();
 
-        static string[] doctorNames = new string[50];
-        static int[] doctorAvailableSlots = new int[50];
-        static int[] doctorVisitCount = new int[50];
+        //static string[] assignedDoctors = new string[100];
+        static List<string> assignedDoctors = new List<string>();
+        //static string[] departments = new string[100];
+        static List<string> departments = new List<string>();
+        //static int[] visitCount = new int[100];
+        static List<int> visitCount = new List<int>();
+        //static double[] billingAmounts = new double[100];
+        static List<double> billingAmounts = new List<double>();
+        //static DateTime[] lastVisitDate = new DateTime[100];
+        static List<DateTime> lastVisitDate = new List<DateTime>();
+        //static DateTime[] lastDischargeDate = new DateTime[100];
+        static List<DateTime> lastDischargeDate = new List<DateTime>();
+        //static int[] daysInHospital = new int[100];
+        static List<int> daysInHospital = new List<int>();
+        //static string[] bloodType = new string[100];
+        static List<string> bloodType = new List<string>();
 
-        static int patientIndex = -1;
-        static int lastDoctorIndex = -1;
+        //static string[] doctorNames = new string[50];
+        static List<string> doctorNames = new List<string>();
+        //static int[] doctorAvailableSlots = new int[50];
+        static List<int> doctorAvailableSlots = new List<int>();
+        //static int[] doctorVisitCount = new int[50];
+        static List<int> doctorVisitCount = new List<int>();
 
-        static  double BASE_SALARY = 300;
-        static  double BONUS_PER_VISIT = 15;
+     
+
+        static double BASE_SALARY = 300;
+        static double BONUS_PER_VISIT = 15;
 
 
         static void SeedData()
         {
-            patientIndex++;
-            patientNames[patientIndex] = "Ali Hassan";
-            patientIDs[patientIndex] = "P001";
-            diagnoses[patientIndex] = "Flu";
-            departments[patientIndex] = "General";
-            admitted[patientIndex] = false;
-            assignedDoctors[patientIndex] = "";
-            visitCount[patientIndex] = 2;
-            billingAmounts[patientIndex] = 0;
-            lastVisitDate[patientIndex] = new DateTime(2025, 01, 10);
-            lastDischargeDate[patientIndex] = new DateTime(2025, 01, 15);
-            daysInHospital[patientIndex] = 12;
-            bloodType[patientIndex] = "A+";
+            
+            patientNames.Add("Ali Hassan");
+            patientIDs.Add( "P001");
+            diagnoses.Add( "Flu");
+            departments.Add( "General");
+            admitted.Add(false) ;
+            assignedDoctors.Add( "");
+            visitCount.Add(2);
+            billingAmounts.Add( 0);
+            lastVisitDate.Add ( new DateTime(2025, 01, 10));
+            lastDischargeDate.Add(new DateTime(2025, 01, 15));
+            daysInHospital.Add(12);
+            bloodType.Add("A+");
 
-            patientIndex++;
-            patientNames[patientIndex] = "Sara Ahmed";
-            patientIDs[patientIndex] = "P002";
-            diagnoses[patientIndex] = "Fracture";
-            departments[patientIndex] = "Orthopedics";
-            admitted[patientIndex] = true;
-            assignedDoctors[patientIndex] = "Dr. Noor";
-            visitCount[patientIndex] = 4;
-            billingAmounts[patientIndex] = 0;
-            lastVisitDate[patientIndex] = new DateTime(2025, 03, 02);
-            lastDischargeDate[patientIndex] = DateTime.MinValue;
-            daysInHospital[patientIndex] = 8;
-            bloodType[patientIndex] = "O-";
+            
+            patientNames.Add( "Sara Ahmed");
+            patientIDs.Add( "P002");
+            diagnoses.Add("Fracture");
+            departments.Add("Orthopedics");
+            admitted.Add(true);
+            assignedDoctors.Add("Dr. Noor");
+            visitCount.Add( 4);
+            billingAmounts.Add( 0);
+            lastVisitDate.Add( new DateTime(2025, 03, 02));
+            lastDischargeDate.Add(DateTime.MinValue);
+            daysInHospital.Add( 8);
+            bloodType.Add("O-");
 
-            patientIndex++;
-            patientNames[patientIndex] = "Omar Khalid";
-            patientIDs[patientIndex] = "P003";
-            diagnoses[patientIndex] = "Diabetes";
-            departments[patientIndex] = "Cardiology";
-            admitted[patientIndex] = false;
-            assignedDoctors[patientIndex] = "";
-            visitCount[patientIndex] = 1;
-            billingAmounts[patientIndex] = 0;
-            lastVisitDate[patientIndex] = new DateTime(2024, 12, 20);
-            lastDischargeDate[patientIndex] = new DateTime(2024, 12, 28);
-            daysInHospital[patientIndex] = 5;
-            bloodType[patientIndex] = "B+";
+            
+            patientNames.Add( "Omar Khalid");
+            patientIDs.Add("P003");
+            diagnoses.Add( "Diabetes");
+            departments.Add("Cardiology");
+            admitted.Add( false);
+            assignedDoctors.Add("");
+            visitCount.Add( 1);
+            billingAmounts.Add( 0);
+            lastVisitDate.Add( new DateTime(2024, 12, 20));
+            lastDischargeDate.Add(new DateTime(2024, 12, 28));
+            daysInHospital.Add(5);
+            bloodType.Add( "B+");
 
-            lastDoctorIndex++;
-            doctorNames[lastDoctorIndex] = "Dr. Noor";
-            doctorAvailableSlots[lastDoctorIndex] = 5;
-            doctorVisitCount[lastDoctorIndex] = 0;
+            
+            doctorNames.Add("Dr. Noor");
+            doctorAvailableSlots.Add(5);
+            doctorVisitCount.Add( 0);
 
-            lastDoctorIndex++;
-            doctorNames[lastDoctorIndex] = "Dr. Salem";
-            doctorAvailableSlots[lastDoctorIndex] = 3;
-            doctorVisitCount[lastDoctorIndex] = 0;
+  
+            doctorNames.Add("Dr. Salem");
+            doctorAvailableSlots.Add( 3);
+            doctorVisitCount.Add( 0);
 
-            lastDoctorIndex++;
-            doctorNames[lastDoctorIndex] = "Dr. Hana";
-            doctorAvailableSlots[lastDoctorIndex] = 8;
-            doctorVisitCount[lastDoctorIndex] = 0;
+ 
+            doctorNames.Add("Dr. Hana");
+            doctorAvailableSlots.Add(8);
+            doctorVisitCount.Add(0);
         }
 
 
@@ -106,12 +122,12 @@ namespace Healthcare_Management_System
             Console.WriteLine("10. Exit");
             Console.WriteLine("11. Add Doctor");
             Console.WriteLine("12. Doctor Salary Report");
-            
+
         }
 
         static int SearchPatient(string searchInput)
         {
-            for (int i = 0; i <= patientIndex; i++)
+            for (int i = 0; i < patientNames.Count; i++)
             {
                 if (patientNames[i].ToLower() == searchInput.ToLower() ||
                     patientIDs[i].ToLower() == searchInput.ToLower())
@@ -125,7 +141,7 @@ namespace Healthcare_Management_System
 
         static int SearchDoctor(string doctorInput)
         {
-            for (int i = 0; i <= lastDoctorIndex; i++)
+            for (int i = 0; i < doctorNames.Count; i++)
             {
                 if (doctorNames[i].ToLower() == doctorInput.ToLower())
                 {
@@ -136,20 +152,9 @@ namespace Healthcare_Management_System
             return -1;
         }
 
-        static string GeneratePatientID(int num)
+        statistatic string GeneratePatientID(int num)
         {
-            if (num < 10)
-            {
-                return "P00" + num;
-            }
-            else if (num < 100)
-            {
-                return "P0" + num;
-            }
-            else
-            {
-                return "P" + num;
-            }
+            return "P" + num.ToString("D3");
         }
 
         static void PrintPatientDetails(int i)
@@ -165,7 +170,7 @@ namespace Healthcare_Management_System
             Console.WriteLine($"Total Billing Amount: {Math.Round(billingAmounts[i], 2)} OMR");
             Console.WriteLine("Total Days in Hospital: " + daysInHospital[i]);
 
-            if (admitted[i] == true)
+            if (admitted[i])
             {
                 Console.WriteLine("Assigned Doctor: " + assignedDoctors[i]);
             }
@@ -209,30 +214,23 @@ namespace Healthcare_Management_System
             Console.Write("Department: ");
             string deptInput = (Console.ReadLine() ?? "").Trim();
 
-            if (patientIndex >= patientNames.Length - 1)
-            {
-                Console.WriteLine("Patient storage is full. Cannot register more patients.");
-                return;
-            }
+            patientNames.Add(nameInput);
+            diagnoses.Add(diagnosisInput);
+            departments.Add( deptInput);
+            bloodType.Add( bloodInput);
+            patientIDs.Add(GeneratePatientID(patientNames.Count));
 
-            patientIndex++;
 
-            patientNames[patientIndex] = nameInput;
-            diagnoses[patientIndex] = diagnosisInput;
-            departments[patientIndex] = deptInput;
-            bloodType[patientIndex] = bloodInput;
-            patientIDs[patientIndex] = GeneratePatientID(patientIndex + 1);
-
-            admitted[patientIndex] = false;
-            assignedDoctors[patientIndex] = "";
-            visitCount[patientIndex] = 0;
-            billingAmounts[patientIndex] = 0;
-            lastVisitDate[patientIndex] = DateTime.MinValue;
-            lastDischargeDate[patientIndex] = DateTime.MinValue;
-            daysInHospital[patientIndex] = 0;
+            admitted.Add(false);
+            assignedDoctors.Add( "");
+            visitCount.Add( 0);
+            billingAmounts.Add( 0);
+            lastVisitDate.Add( DateTime.MinValue);
+            lastDischargeDate.Add(DateTime.MinValue);
+            daysInHospital.Add( 0);
 
             Console.WriteLine("Patient registered successfully!");
-            Console.WriteLine("Generated Patient ID: " + patientIDs[patientIndex]);
+            Console.WriteLine("Generated Patient ID: " + patientIDs[patientIDs.Count -1]);
         }
 
         static void AdmitPatient()
@@ -274,7 +272,7 @@ namespace Healthcare_Management_System
                     DateTime admissionDate = DateTime.Now;
                     lastVisitDate[admitFound] = admissionDate;
                     lastDischargeDate[admitFound] = DateTime.MinValue;
-                    
+
 
                     doctorAvailableSlots[doctorIndex]--;
                     doctorVisitCount[doctorIndex]++;
@@ -377,7 +375,7 @@ namespace Healthcare_Management_System
 
                     int days = (int)Math.Ceiling(stayDuration.TotalDays);
 
-                    if(days < 1)
+                    if (days < 1)
                     {
                         days = 1;
                     }
@@ -386,7 +384,7 @@ namespace Healthcare_Management_System
                     string assignedDoctorName = assignedDoctors[dischargeFound];
                     int doctorIndex = -1;
 
-                    for (int i = 0; i <= lastDoctorIndex; i++)
+                    for (int i = 0; i <= doctorNames.Count; i++)
                     {
                         if (doctorNames[i].ToLower() == assignedDoctorName.ToLower())
                         {
@@ -457,7 +455,7 @@ namespace Healthcare_Management_System
                 double minBilling = 0;
                 bool hasBilling = false;
 
-                for (int i = 0; i <= patientIndex; i++)
+                for (int i = 0; i <= patientNames.Count; i++)
                 {
                     totalBilling += billingAmounts[i];
 
@@ -589,7 +587,7 @@ namespace Healthcare_Management_System
 
         static void DoctorSalaryReport()
         {
-            if (lastDoctorIndex == -1)
+            if (doctorNames.Count == 0)
             {
                 Console.WriteLine("No doctors registered in the system");
                 return;
@@ -606,7 +604,7 @@ namespace Healthcare_Management_System
 
 
 
-            for (int i = 0; i <= lastDoctorIndex; i++)
+            for (int i = 0; i < doctorNames.Count; i++)
             {
                 double salary = BASE_SALARY + (doctorVisitCount[i] * BONUS_PER_VISIT);
                 salary = Math.Round(salary, 2);
@@ -614,7 +612,7 @@ namespace Healthcare_Management_System
                 Console.WriteLine($"Name: {doctorNames[i]} | Visits: {doctorVisitCount[i]} | Available Slots: {doctorAvailableSlots[i]} | Salary: {salary} OMR");
 
 
-                double newHighest = Math.Max(highestSalary, salary);
+                double highestSalary = BASE_SALARY + (doctorVisitCount[0] * BONUS_PER_VISIT);
                 if (salary > highestSalary)
                 {
                     highestSalary = salary;
@@ -693,7 +691,8 @@ namespace Healthcare_Management_System
                         int admittedCount = 0;
                         double highestBilling = 0;
 
-                        for (int i = 0; i <= patientIndex && i < patientNames.Length; i++)
+                        for (int i = 0; i < patientNames.Count; i++)
+
                         {
                             if (admitted[i])
                             {
@@ -757,7 +756,7 @@ namespace Healthcare_Management_System
 
                         bool transferFound = false;
 
-                        for (int i = 0; i <= patientIndex; i++)
+                        for (int i = 0; i <= patientNames.Count; i++)
                         {
                             if (assignedDoctors[i].ToLower() == currentDoctor.ToLower() && admitted[i])
                             {
@@ -795,7 +794,7 @@ namespace Healthcare_Management_System
 
                         int maxVisits = 0;
 
-                        for (int i = 0; i <= patientIndex; i++)
+                        for (int i = 0; i <= patientNames.Count; i++)
                         {
                             if (visitCount[i] > maxVisits)
                             {
@@ -805,7 +804,7 @@ namespace Healthcare_Management_System
 
                         for (int count = maxVisits; count >= 0; count--)
                         {
-                            for (int i = 0; i <= patientIndex; i++)
+                            for (int i = 0; i <= patientNames.Count; i++)
                             {
                                 if (visitCount[i] == count)
                                 {
@@ -824,7 +823,7 @@ namespace Healthcare_Management_System
                         Console.WriteLine($"Patients in department '{searchDep.ToUpper()}':");
                         Console.WriteLine("----------------------------------------");
 
-                        for (int i = 0; i <= patientIndex; i++)
+                        for (int i = 0; i < patientNames.Count; i++)
                         {
                             if (departments[i].ToLower().Contains(searchDep.ToLower()))
                             {
@@ -877,7 +876,7 @@ namespace Healthcare_Management_System
                         DoctorSalaryReport();
                         break;
 
-                    
+
 
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
